@@ -10,8 +10,9 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/lvLogs"
-        android:layout_above="@+id/btnAddEntry"
-        android:layout_alignParentStart="true" />
+        android:layout_alignParentStart="true"
+        android:layout_above="@+id/textTotal"
+        android:scrollbars="vertical" />
 
     <Button
         android:layout_width="wrap_content"
@@ -21,5 +22,15 @@
         android:layout_alignParentBottom="true"
         android:layout_alignParentStart="true"
         android:layout_alignParentEnd="true" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:text="Total = $0.00"
+        android:id="@+id/textTotal"
+        android:layout_above="@+id/btnAddEntry"
+        android:layout_alignParentStart="true"
+        android:layout_alignEnd="@+id/lvLogs" />
 
 </RelativeLayout>

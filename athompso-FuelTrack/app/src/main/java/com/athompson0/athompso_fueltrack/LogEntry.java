@@ -1,11 +1,13 @@
 package com.athompson0.athompso_fueltrack;
 
+import java.io.Serializable;
+import java.math.BigDecimal;
 import java.util.Date;
 
 /**
  * Created by athompso on 1/25/16.
  */
-public class LogEntry {
+public class LogEntry implements Serializable {
     private Date date;
     private String station;
     private Float odometer;
@@ -77,5 +79,12 @@ public class LogEntry {
 
     public Float getTcost() {
         return tcost;
+    }
+
+    @Override
+    public String toString() {
+        Float rounded = BigDecimal.valueOf(this.tcost).setScale(2, BigDecimal.ROUND_HALF_UP)
+                .floatValue();
+        return date.toString() + ", " + station + "\nCost: " + rounded.toString();
     }
 }

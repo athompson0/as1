@@ -1,5 +1,6 @@
 package com.athompson0.athompso_fueltrack;
 
+import android.app.Activity;
 import android.app.Fragment;
 import android.content.Intent;
 import android.support.v7.app.ActionBarActivity;
@@ -19,8 +20,6 @@ public class NewLogActivity extends ActionBarActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_new_log);
-        Intent home = getIntent();
-        final LogEntryList logs = (LogEntryList) home.getSerializableExtra("logs");
 
         Button saveButton = (Button) findViewById(R.id.btnSave);
         Button cancelButton = (Button) findViewById(R.id.btnCancel);
@@ -28,13 +27,15 @@ public class NewLogActivity extends ActionBarActivity {
         saveButton.setOnClickListener(new View.OnClickListener() {
 
             public void onClick(View v) {
+                TextView invalidEntry = (TextView) findViewById(R.id.textInvalid);
                 IncompleteEntry entries = parseEntries();
-                if (!entries.isComplete()) {
-                    logs.add(entries.createLogEntry());
+
+                if (entries.isComplete()) {
+                    setResult(Activity.RESULT_OK, new Intent()
+                            .putExtra("log",entries.createLogEntry()));
                     finish();
                 }
                 else {
-                    TextView invalidEntry = (TextView) findViewById(R.id.textInvalid);
                     invalidEntry.setVisibility(View.VISIBLE);
                 }
             }
@@ -43,6 +44,7 @@ public class NewLogActivity extends ActionBarActivity {
         cancelButton.setOnClickListener(new View.OnClickListener() {
 
             public void onClick(View v) {
+                setResult(Activity.RESULT_CANCELED);
                 finish();
             }
         });

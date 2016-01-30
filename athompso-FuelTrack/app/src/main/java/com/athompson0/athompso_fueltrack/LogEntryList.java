@@ -1,5 +1,7 @@
 package com.athompson0.athompso_fueltrack;
 
+import android.widget.ArrayAdapter;
+
 import java.io.Serializable;
 import java.util.ArrayList;
 
@@ -15,18 +17,31 @@ public class LogEntryList implements Serializable {
         total = 0;
     }
 
-    public void add(LogEntry log) {
-        logs.add(log);
-        total += log.getTcost();
+    public void setLogs(ArrayList<LogEntry> logs) {
+        this.logs = logs;
+        this.total = 0;
+        for (int index = 0; index < logs.size(); index++) {
+            total += logs.get(index).getTcost();
+        }
+    }
+
+    public ArrayList<LogEntry> getLogs() {
+        return logs;
     }
 
     public float getTotal() {
         return total;
     }
 
+    public void add(LogEntry log) {
+        logs.add(log);
+        total += log.getTcost();
+    }
+
     public void replace(LogEntry oldLog, LogEntry newLog) {
         int index = logs.indexOf(oldLog);
         logs.remove(index);
         logs.add(index, newLog);
+        total = total - oldLog.getTcost() + newLog.getTcost();
     }
 }
