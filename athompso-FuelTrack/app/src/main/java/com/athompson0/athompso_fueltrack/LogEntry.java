@@ -1,3 +1,5 @@
+package com.athompson0.athompso_fueltrack;
+
 import java.util.Date;
 
 /**
@@ -61,6 +63,7 @@ public class LogEntry {
 
     public void setAmount(Float amount) {
         this.amount = amount;
+        this.tcost = this.amount * (this.ucost/100);
     }
 
     public Float getUcost() {
@@ -69,6 +72,7 @@ public class LogEntry {
 
     public void setUcost(Float ucost) {
         this.ucost = ucost;
+        this.tcost = this.amount * (this.ucost/100);
     }
 
     public Float getTcost() {

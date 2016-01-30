@@ -1,17 +1,36 @@
 package com.athompson0.athompso_fueltrack;
 
+import android.content.Intent;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.Button;
+import android.widget.ListView;
 
 public class ListActivity extends AppCompatActivity {
+    private ListView logList;
+    private LogEntryList logs;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_list);
+
+        logList = (ListView) findViewById(R.id.lvLogs);
+        logs = new LogEntryList();
+        Button addButton = (Button) findViewById(R.id.btnAddEntry);
+
+        addButton.setOnClickListener(new View.OnClickListener() {
+
+            public void onClick(View v) {
+                Intent newLog = new Intent(getApplicationContext(), NewLogActivity.class);
+                newLog.putExtra("logs",logs);
+                startActivity(newLog);
+            }
+        });
     }
 
     @Override
