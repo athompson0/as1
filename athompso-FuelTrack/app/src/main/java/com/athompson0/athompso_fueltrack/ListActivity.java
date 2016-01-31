@@ -8,6 +8,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ListView;
@@ -52,7 +53,16 @@ public class ListActivity extends AppCompatActivity {
                 startActivityForResult(intent, 1);
                 adapter.notifyDataSetChanged();
                 saveInFile();
-                //updateText();
+                updateText();
+            }
+        });
+
+        logList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                Intent intent = new Intent(getApplicationContext(), EditActivity.class);
+                intent.putExtra("entry", logs.getLog(i));
+                startActivityForResult(intent, 2);
             }
         });
     }
@@ -60,17 +70,27 @@ public class ListActivity extends AppCompatActivity {
     public void updateText() {
         //code from
         //http://stackoverflow.com/questions/8911356/whats-the-best-practice-to-round-a-float-to-2-decimals
+        //used to round float
         float roundedTotal = BigDecimal.valueOf(logs.getTotal())
                 .setScale(2, BigDecimal.ROUND_HALF_UP).floatValue();
         totalText.setText("Total = $" + roundedTotal);
     }
 
     @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent intent) {
+    public void onActivityResult(int requestCode, int resultCode, Intent intent) {
         super.onActivityResult(requestCode, resultCode, intent);
+        totalText.setText("ON ACTIVITY RESULT");
+
         if (requestCode == 1 && resultCode == Activity.RESULT_OK) {
             LogEntry log = (LogEntry) intent.getSerializableExtra("log");
             logs.add(log);
+        }
+
+        if (requestCode == 2 && resultCode == Activity.RESULT_OK) {
+            LogEntry newLog = (LogEntry) intent.getSerializableExtra("newLog");
+            LogEntry oldLog = (LogEntry) intent.getSerializableExtra("oldLog");
+            logs.replace(oldLog, newLog);
+
         }
     }
 

@@ -3,6 +3,7 @@ package com.athompson0.athompso_fueltrack;
 import android.test.ActivityInstrumentationTestCase2;
 
 import java.util.ArrayList;
+import java.util.Date;
 
 /**
  * Created by athompso on 1/29/16.
@@ -14,8 +15,8 @@ public class LogEntryListTest extends ActivityInstrumentationTestCase2 {
 
     public void testGetTotal() {
         LogEntryList logs = new LogEntryList();
-        LogEntry log1 = new LogEntry("station", (float)1, "grade", (float)1, (float)1);
-        LogEntry log2 = new LogEntry("station", (float)2, "grade", (float)2, (float)2);
+        LogEntry log1 = new LogEntry(new Date(), "station", (float)1, "grade", (float)1, (float)1);
+        LogEntry log2 = new LogEntry(new Date(), "station", (float)2, "grade", (float)2, (float)2);
 
         logs.add(log1);
         assertEquals(logs.getTotal(), log1.getTcost());
@@ -29,8 +30,8 @@ public class LogEntryListTest extends ActivityInstrumentationTestCase2 {
 
     public void testSetLogs() {
         LogEntryList logs = new LogEntryList();
-        LogEntry log1 = new LogEntry("station", (float)1, "grade", (float)1, (float)1);
-        LogEntry log2 = new LogEntry("station", (float)2, "grade", (float)2, (float)2);
+        LogEntry log1 = new LogEntry(new Date(), "station", (float)1, "grade", (float)1, (float)1);
+        LogEntry log2 = new LogEntry(new Date(), "station", (float)2, "grade", (float)2, (float)2);
         ArrayList<LogEntry> logList = new ArrayList<LogEntry>();
 
         logs.add(log1);
@@ -45,8 +46,8 @@ public class LogEntryListTest extends ActivityInstrumentationTestCase2 {
 
     public void testReplace() {
         LogEntryList logs = new LogEntryList();
-        LogEntry log1 = new LogEntry("station", (float)1, "grade", (float)1, (float)1);
-        LogEntry log2 = new LogEntry("station", (float)2, "grade", (float)2, (float)2);
+        LogEntry log1 = new LogEntry(new Date(), "station", (float)1, "grade", (float)1, (float)1);
+        LogEntry log2 = new LogEntry(new Date(), "station", (float)2, "grade", (float)2, (float)2);
 
         logs.add(log1);
         assertEquals(logs.getTotal(), log1.getTcost());

@@ -29,6 +29,10 @@ public class LogEntryList implements Serializable {
         return logs;
     }
 
+    public LogEntry getLog(int index) {
+        return logs.get(index);
+    }
+
     public float getTotal() {
         return total;
     }

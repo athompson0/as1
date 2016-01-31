@@ -11,9 +11,8 @@
         android:layout_height="wrap_content"
         android:text="Enter Station Name:"
         android:id="@+id/textStation"
-        android:layout_alignParentTop="true"
-        android:layout_alignParentStart="true"
-        android:layout_alignParentEnd="true" />
+        android:layout_below="@+id/etDate"
+        android:layout_alignParentStart="true" />
 
     <Button
         android:layout_width="wrap_content"
@@ -39,7 +38,7 @@
         android:id="@+id/etStation"
         android:layout_below="@+id/textStation"
         android:layout_alignParentStart="true"
-        android:layout_alignEnd="@+id/textStation" />
+        android:layout_alignParentEnd="true" />
 
     <TextView
         android:layout_width="wrap_content"
@@ -114,5 +113,21 @@
         android:layout_above="@+id/btnSave"
         android:layout_alignParentStart="true"
         android:visibility="invisible"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Enter Date (yyyy-mm-dd):"
+        android:id="@+id/textDate"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentStart="true" />
+
+    <EditText
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/etDate"
+        android:layout_below="@+id/textDate"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentEnd="true" />
 
 </RelativeLayout>

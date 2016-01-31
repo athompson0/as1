@@ -1,15 +1,12 @@
 package com.athompson0.athompso_fueltrack;
 
 import android.app.Activity;
-import android.app.Fragment;
 import android.content.Intent;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
-import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
@@ -19,25 +16,45 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
-public class NewLogActivity extends ActionBarActivity {
+public class EditActivity extends ActionBarActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_new_log);
+        Intent intent = getIntent();
+        LogEntry log = (LogEntry) intent.getSerializableExtra("entry");
 
         Button saveButton = (Button) findViewById(R.id.btnSave);
         Button cancelButton = (Button) findViewById(R.id.btnCancel);
 
+        EditText dateText = (EditText) findViewById(R.id.etDate);
+        EditText stationText = (EditText) findViewById(R.id.etStation);
+        EditText odometerText = (EditText) findViewById(R.id.etOdometer);
+        EditText gradeText = (EditText) findViewById(R.id.etGrade);
+        EditText amountText = (EditText) findViewById(R.id.etAmount);
+        EditText ucostText = (EditText) findViewById(R.id.etUcost);
+
+        DateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+
+        dateText.setText(sdf.format(log.getDate()));
+        stationText.setText(log.getStation());
+        odometerText.setText(log.getOdometer().toString());
+        gradeText.setText(log.getGrade());
+        amountText.setText(log.getAmount().toString());
+        ucostText.setText(log.getUcost().toString());
+
         saveButton.setOnClickListener(new View.OnClickListener() {
-
-            public void onClick(View v) {
+            @Override
+            public void onClick(View view) {
                 TextView invalidEntry = (TextView) findViewById(R.id.textInvalid);
-                IncompleteEntry entries = parseEntries();
                 Intent intent = getIntent();
+                LogEntry log = (LogEntry) intent.getSerializableExtra("entry");
+                IncompleteEntry entries = new IncompleteEntry(log);
 
-                if (entries.isComplete()) {
-                    intent.putExtra("log", entries.createLogEntry());
+                if (validEntries(entries)) {
+                    intent.putExtra("newLog", entries.createLogEntry());
+                    intent.putExtra("oldLog", log);
                     setResult(Activity.RESULT_OK, intent);
                     finish();
                 }
@@ -48,18 +65,15 @@ public class NewLogActivity extends ActionBarActivity {
         });
 
         cancelButton.setOnClickListener(new View.OnClickListener() {
-
-            public void onClick(View v) {
-                Intent intent = getIntent();
+            @Override
+            public void onClick(View view) {
                 setResult(Activity.RESULT_CANCELED);
                 finish();
             }
         });
     }
 
-    public IncompleteEntry parseEntries() {
-        IncompleteEntry entries = new IncompleteEntry();
-
+    public boolean validEntries(IncompleteEntry entries) {
         EditText dateText = (EditText) findViewById(R.id.etDate);
         EditText stationText = (EditText) findViewById(R.id.etStation);
         EditText odometerText = (EditText) findViewById(R.id.etOdometer);
@@ -86,40 +100,39 @@ public class NewLogActivity extends ActionBarActivity {
             DateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
             date = sdf.parse(sDate);
         } catch (ParseException ex) {
-            return entries;
+            return Boolean.FALSE;
         }
 
         try {
             odometer = Float.parseFloat(sOdometer);
         } catch (NumberFormatException ex) {
-            return entries;
+            return Boolean.FALSE;
         }
 
         try {
             amount = Float.parseFloat(sAmount);
         } catch (NumberFormatException ex) {
-            return entries;
+            return Boolean.FALSE;
         }
 
         try {
             ucost = Float.parseFloat(sUcost);
         }
         catch (NumberFormatException ex) {
-            return entries;
+            return Boolean.FALSE;
         }
 
-        entries.setDate(date);
         entries.setOdometer(odometer);
         entries.setAmount(amount);
         entries.setUcost(ucost);
 
-        return entries;
+        return Boolean.TRUE;
     }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.menu_new_log, menu);
+        getMenuInflater().inflate(R.menu.menu_edit, menu);
         return true;
     }
 
@@ -137,5 +150,4 @@ public class NewLogActivity extends ActionBarActivity {
 
         return super.onOptionsItemSelected(item);
     }
-
 }

@@ -12,7 +12,8 @@
         android:id="@+id/lvLogs"
         android:layout_alignParentStart="true"
         android:layout_above="@+id/textTotal"
-        android:scrollbars="vertical" />
+        android:scrollbars="vertical"
+        android:layout_below="@+id/textEntries" />
 
     <Button
         android:layout_width="wrap_content"
@@ -32,5 +33,14 @@
         android:layout_above="@+id/btnAddEntry"
         android:layout_alignParentStart="true"
         android:layout_alignEnd="@+id/lvLogs" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:text="Log Entries (tap to edit)"
+        android:id="@+id/textEntries"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentStart="true" />
 
 </RelativeLayout>

@@ -20,6 +20,14 @@
             android:name=".NewLogActivity"
             android:label="@string/title_activity_new_log" >
         </activity>
+        <activity
+            android:name=".EditActivity"
+            android:label="@string/title_activity_edit"
+            android:parentActivityName=".ListActivity" >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.athompson0.athompso_fueltrack.ListActivity" />
+        </activity>
     </application>
 
 </manifest>
