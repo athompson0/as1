@@ -51,9 +51,6 @@ public class ListActivity extends AppCompatActivity {
             public void onClick(View v) {
                 Intent intent = new Intent(getApplicationContext(), NewLogActivity.class);
                 startActivityForResult(intent, 1);
-                adapter.notifyDataSetChanged();
-                saveInFile();
-                updateText();
             }
         });
 
@@ -62,6 +59,7 @@ public class ListActivity extends AppCompatActivity {
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
                 Intent intent = new Intent(getApplicationContext(), EditActivity.class);
                 intent.putExtra("entry", logs.getLog(i));
+                intent.putExtra("position", i);
                 startActivityForResult(intent, 2);
             }
         });
@@ -79,18 +77,22 @@ public class ListActivity extends AppCompatActivity {
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent intent) {
         super.onActivityResult(requestCode, resultCode, intent);
-        totalText.setText("ON ACTIVITY RESULT");
 
-        if (requestCode == 1 && resultCode == Activity.RESULT_OK) {
-            LogEntry log = (LogEntry) intent.getSerializableExtra("log");
-            logs.add(log);
-        }
+        if (resultCode == Activity.RESULT_OK) {
+            if (requestCode == 1) {
+                LogEntry log = (LogEntry) intent.getSerializableExtra("log");
+                logs.add(log);
+            }
 
-        if (requestCode == 2 && resultCode == Activity.RESULT_OK) {
-            LogEntry newLog = (LogEntry) intent.getSerializableExtra("newLog");
-            LogEntry oldLog = (LogEntry) intent.getSerializableExtra("oldLog");
-            logs.replace(oldLog, newLog);
+            if (requestCode == 2) {
+                LogEntry newLog = (LogEntry) intent.getSerializableExtra("newLog");
+                int index = intent.getIntExtra("oldIndex", 0);
+                logs.replace(index, newLog);
+            }
 
+            adapter.notifyDataSetChanged();
+            saveInFile();
+            updateText();
         }
     }
 

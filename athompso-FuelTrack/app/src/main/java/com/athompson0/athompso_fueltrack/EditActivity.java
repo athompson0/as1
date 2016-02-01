@@ -11,6 +11,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 
+import java.math.BigDecimal;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -36,13 +37,19 @@ public class EditActivity extends ActionBarActivity {
         EditText ucostText = (EditText) findViewById(R.id.etUcost);
 
         DateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+        Float odometer = BigDecimal.valueOf(log.getOdometer()).setScale(1, BigDecimal.ROUND_HALF_UP)
+                .floatValue();
+        Float amount = BigDecimal.valueOf(log.getAmount()).setScale(3, BigDecimal.ROUND_HALF_UP)
+                .floatValue();
+        Float ucost = BigDecimal.valueOf(log.getUcost()).setScale(1, BigDecimal.ROUND_HALF_UP)
+                .floatValue();
 
         dateText.setText(sdf.format(log.getDate()));
         stationText.setText(log.getStation());
-        odometerText.setText(log.getOdometer().toString());
+        odometerText.setText(odometer.toString());
         gradeText.setText(log.getGrade());
-        amountText.setText(log.getAmount().toString());
-        ucostText.setText(log.getUcost().toString());
+        amountText.setText(amount.toString());
+        ucostText.setText(ucost.toString());
 
         saveButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -50,11 +57,12 @@ public class EditActivity extends ActionBarActivity {
                 TextView invalidEntry = (TextView) findViewById(R.id.textInvalid);
                 Intent intent = getIntent();
                 LogEntry log = (LogEntry) intent.getSerializableExtra("entry");
+                int index = intent.getIntExtra("position", 0);
                 IncompleteEntry entries = new IncompleteEntry(log);
 
                 if (validEntries(entries)) {
                     intent.putExtra("newLog", entries.createLogEntry());
-                    intent.putExtra("oldLog", log);
+                    intent.putExtra("oldIndex", index);
                     setResult(Activity.RESULT_OK, intent);
                     finish();
                 }
@@ -122,6 +130,7 @@ public class EditActivity extends ActionBarActivity {
             return Boolean.FALSE;
         }
 
+        entries.setDate(date);
         entries.setOdometer(odometer);
         entries.setAmount(amount);
         entries.setUcost(ucost);

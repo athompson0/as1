@@ -96,8 +96,8 @@ public class LogEntry implements Serializable {
         Float rTcost = BigDecimal.valueOf(this.tcost).setScale(2, BigDecimal.ROUND_HALF_UP)
                 .floatValue();
         return sdf.format(date) + "\nStation: " + station + "\nOdometer Reading: " +
-                rOdometer.toString() + "\nGrade: " + grade + "\nFuel Amount: " +
-                rAmount.toString() + "\nUnit Cost: " + rUcost.toString() + " cents\nTotal Cost: $" +
-                rTcost.toString();
+                rOdometer.toString() + "km\nGrade: " + grade + "\nFuel Amount: " +
+                rAmount.toString() + "L\nUnit Cost: " + rUcost.toString() +
+                " cents/L\nTotal Cost: $" + rTcost.toString();
     }
 }

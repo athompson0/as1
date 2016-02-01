@@ -52,7 +52,7 @@ public class LogEntryListTest extends ActivityInstrumentationTestCase2 {
         logs.add(log1);
         assertEquals(logs.getTotal(), log1.getTcost());
 
-        logs.replace(log1, log2);
+        logs.replace(0, log2);
         assertEquals(logs.getTotal(), log2.getTcost());
     }
 }

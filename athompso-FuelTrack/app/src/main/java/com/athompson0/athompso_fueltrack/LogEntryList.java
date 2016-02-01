@@ -42,8 +42,8 @@ public class LogEntryList implements Serializable {
         total += log.getTcost();
     }
 
-    public void replace(LogEntry oldLog, LogEntry newLog) {
-        int index = logs.indexOf(oldLog);
+    public void replace(int index, LogEntry newLog) {
+        LogEntry oldLog = logs.get(index);
         logs.remove(index);
         logs.add(index, newLog);
         total = total - oldLog.getTcost() + newLog.getTcost();
